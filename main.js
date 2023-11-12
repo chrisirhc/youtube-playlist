@@ -39,11 +39,7 @@ class VideoListTextArea extends HTMLTextAreaElement {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     const videoList = [
-      {
-        videoId: "c0VxUFHdYzs",
-        startSeconds: 3,
-        endSeconds: 5,
-      },
+      { videoId: "c0VxUFHdYzs", startSeconds: 3, endSeconds: 5 },
       { videoId: "VCcar3MA07w", startSeconds: 52, endSeconds: 55 },
     ];
 
@@ -65,24 +61,19 @@ class VideoListTextArea extends HTMLTextAreaElement {
     // 4. The API will call this function when the video player is ready.
     function onPlayerReady(event) {
       const player = event.target;
-      // event.target.playVideo();
-      player.loadVideoById({
-        videoId: "c0VxUFHdYzs",
-        startSeconds: 3,
-        endSeconds: 5, // For testing
-      });
+      const video = videoList.shift();
+      player.loadVideoById(video);
     }
 
-    var done = false;
     function onPlayerStateChange(event) {
-      if (event.data == YT.PlayerState.ENDED && !done) {
+      if (event.data == YT.PlayerState.ENDED) {
+        if (videoList.length === 0) {
+          return;
+        }
+        const player = event.target;
         // Play next video
-        event.target.loadVideoById({
-          videoId: "VCcar3MA07w",
-          startSeconds: 52,
-          endSeconds: 55,
-        });
-        done = true;
+        const video = videoList.shift();
+        player.loadVideoById(video);
       }
     }
   }
