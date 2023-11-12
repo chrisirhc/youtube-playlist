@@ -15,22 +15,17 @@ class VideoListTextArea extends HTMLTextAreaElement {
         this.initYoutTubeAndPlay();
       } catch (e) {}
     }
+    // Update HTML5 history to add state into url so it can be shared/bookmarked
     this.addEventListener("change", (e) => {
-      console.log("changed", e.target.value);
       const value = e.target.value;
       const searchParams = new URLSearchParams({
         l: value,
       });
       history.pushState(null, "", `?${searchParams}`);
-      console.log("url");
     });
-    // Update HTML5 history to add state into url
     this.addEventListener("change", (e) => {
-      console.log("changed", e.target.value);
       const value = e.target.value;
       const videoList = JSON.parse(value);
-      // Update HTML5 history to add state into url
-
       this.videoList = videoList;
       if (!this.player) {
         this.initYoutTubeAndPlay();
@@ -43,7 +38,7 @@ class VideoListTextArea extends HTMLTextAreaElement {
   videoList = [];
 
   initYoutTubeAndPlay() {
-    // 2. This code loads the IFrame Player API code asynchronously.
+    // Straight out of the docs
     var tag = document.createElement("script");
 
     tag.src = "https://www.youtube.com/iframe_api";
