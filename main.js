@@ -14,7 +14,7 @@ class VideoListTextArea extends HTMLTextAreaElement {
 
       // Once player is done, advance to the next video
 
-      this.initYoutTube();
+      this.initYoutTubeAndPlay();
     });
   }
 
@@ -30,7 +30,12 @@ class VideoListTextArea extends HTMLTextAreaElement {
     console.log(`Attribute ${name} has changed.`);
   }
 
-  initYoutTube() {
+  videoList = [
+    { videoId: "c0VxUFHdYzs", startSeconds: 3, endSeconds: 5 },
+    { videoId: "VCcar3MA07w", startSeconds: 52, endSeconds: 55 },
+  ];
+
+  initYoutTubeAndPlay() {
     // 2. This code loads the IFrame Player API code asynchronously.
     var tag = document.createElement("script");
 
@@ -38,45 +43,35 @@ class VideoListTextArea extends HTMLTextAreaElement {
     var firstScriptTag = document.getElementsByTagName("script")[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    const videoList = [
-      { videoId: "c0VxUFHdYzs", startSeconds: 3, endSeconds: 5 },
-      { videoId: "VCcar3MA07w", startSeconds: 52, endSeconds: 55 },
-    ];
-
     window.onYouTubeIframeAPIReady = () => {
       this.player = new YT.Player("player", {
         height: "390",
         width: "640",
-        videoId: "M7lc1UVf-VE",
+        videoId: this.videoList[0].videoId,
         playerVars: {
           playsinline: 1,
         },
         events: {
-          onReady: onPlayerReady,
-          onStateChange: onPlayerStateChange,
+          onReady: this.playNextVideo,
+          onStateChange: this.onPlayerStateChange,
         },
       });
     };
-
-    // 4. The API will call this function when the video player is ready.
-    function onPlayerReady(event) {
-      const player = event.target;
-      const video = videoList.shift();
-      player.loadVideoById(video);
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data == YT.PlayerState.ENDED) {
-        if (videoList.length === 0) {
-          return;
-        }
-        const player = event.target;
-        // Play next video
-        const video = videoList.shift();
-        player.loadVideoById(video);
-      }
-    }
   }
+
+  onPlayerStateChange = (event) => {
+    if (event.data == YT.PlayerState.ENDED) {
+      if (this.videoList.length === 0) {
+        return;
+      }
+      this.playNextVideo();
+    }
+  };
+
+  playNextVideo = () => {
+    const video = this.videoList.shift();
+    this.player.loadVideoById(video);
+  };
 }
 customElements.define("video-list-text-area", VideoListTextArea, {
   extends: "textarea",
