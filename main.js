@@ -65,14 +65,15 @@ class VideoListTextArea extends HTMLTextAreaElement {
 
   onPlayerStateChange = (event) => {
     if (event.data == YT.PlayerState.ENDED) {
-      if (this.videoList.length === 0) {
-        return;
-      }
       this.playNextVideo();
     }
   };
 
   playNextVideo = () => {
+    if (!this.videoList.length) {
+      console.log("no more videos");
+      return;
+    }
     const video = this.videoList.shift();
     this.player.loadVideoById(video);
   };
