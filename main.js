@@ -8,12 +8,9 @@ class VideoListTextArea extends HTMLTextAreaElement {
     console.log("Custom element added to page.");
     this.addEventListener("change", (e) => {
       console.log("changed", e.target.value);
-      // Format should be youtube video urls line by line
-
-      // Initiate play with the content
-
-      // Once player is done, advance to the next video
-
+      const value = e.target.value;
+      const videoList = JSON.parse(value);
+      this.videoList = videoList;
       if (!this.player) {
         this.initYoutTubeAndPlay();
       } else {
@@ -63,6 +60,7 @@ class VideoListTextArea extends HTMLTextAreaElement {
     };
   }
 
+  // Once video ended it will advance to the next video
   onPlayerStateChange = (event) => {
     if (event.data == YT.PlayerState.ENDED) {
       this.playNextVideo();
