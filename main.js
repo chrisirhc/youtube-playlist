@@ -14,7 +14,11 @@ class VideoListTextArea extends HTMLTextAreaElement {
 
       // Once player is done, advance to the next video
 
-      this.initYoutTubeAndPlay();
+      if (!this.player) {
+        this.initYoutTubeAndPlay();
+      } else {
+        this.playNextVideo();
+      }
     });
   }
 
