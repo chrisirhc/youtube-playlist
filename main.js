@@ -5,7 +5,6 @@ class VideoListTextArea extends HTMLTextAreaElement {
   player = null;
 
   connectedCallback() {
-    console.log("Custom element added to page.");
     if (document.location.search) {
       const params = new URLSearchParams(document.location.search);
       const value = params.get("l");
@@ -39,18 +38,6 @@ class VideoListTextArea extends HTMLTextAreaElement {
         this.playNextVideo();
       }
     });
-  }
-
-  disconnectedCallback() {
-    console.log("Custom element removed from page.");
-  }
-
-  adoptedCallback() {
-    console.log("Custom element moved to new page.");
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    console.log(`Attribute ${name} has changed.`);
   }
 
   videoList = [
