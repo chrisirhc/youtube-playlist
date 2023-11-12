@@ -40,10 +40,7 @@ class VideoListTextArea extends HTMLTextAreaElement {
     });
   }
 
-  videoList = [
-    { videoId: "c0VxUFHdYzs", startSeconds: 3, endSeconds: 5 },
-    { videoId: "VCcar3MA07w", startSeconds: 52, endSeconds: 55 },
-  ];
+  videoList = [];
 
   initYoutTubeAndPlay() {
     // 2. This code loads the IFrame Player API code asynchronously.
