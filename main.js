@@ -6,10 +6,32 @@ class VideoListTextArea extends HTMLTextAreaElement {
 
   connectedCallback() {
     console.log("Custom element added to page.");
+    if (document.location.search) {
+      const params = new URLSearchParams(document.location.search);
+      const value = params.get("l");
+      this.value = value;
+      try {
+        const videoList = JSON.parse(value);
+        this.videoList = videoList;
+        this.initYoutTubeAndPlay();
+      } catch (e) {}
+    }
+    this.addEventListener("change", (e) => {
+      console.log("changed", e.target.value);
+      const value = e.target.value;
+      const searchParams = new URLSearchParams({
+        l: value,
+      });
+      history.pushState(null, "", `?${searchParams}`);
+      console.log("url");
+    });
+    // Update HTML5 history to add state into url
     this.addEventListener("change", (e) => {
       console.log("changed", e.target.value);
       const value = e.target.value;
       const videoList = JSON.parse(value);
+      // Update HTML5 history to add state into url
+
       this.videoList = videoList;
       if (!this.player) {
         this.initYoutTubeAndPlay();
