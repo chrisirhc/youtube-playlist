@@ -5,10 +5,12 @@
       import './main.js';
     </script>
   </head>
-  <body>
+  <body style="display: flex; flex-direction: column; position: absolute; top: 0; bottom: 0; left: 0; right: 0">
     <div>
       <textarea is="video-list-text-area" style="width: 100%"" placeholder="Enter video urls…"></textarea>
     </div>
-    <div id="player" style="padding: 5px;resize:both"></div>
+    <div style="flex: 1; padding: 5px;">
+      <div id="player" style="width: 100%; height: 100%;"></div>
+    </div>
   </body>
 </html>
